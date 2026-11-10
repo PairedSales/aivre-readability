@@ -4,7 +4,7 @@ A free user style that makes the [Aivre](https://www.aivre.com) appraisal softwa
 
 *Unofficial. Not made by or affiliated with Aivre. It only changes how pages look in your own browser. It never changes your report data.*
 
-![Sales Comparison grid with Aivre Readability](screenshots/grid-top.png)
+![Full Sales Comparison grid with Aivre Readability](screenshots/full-grid.png)
 
 ## What it does
 
@@ -24,8 +24,6 @@ A free user style that makes the [Aivre](https://www.aivre.com) appraisal softwa
 
 ![Floating auto adjustment panel](screenshots/auto-adjust-panel.png)
 
-![Summary rows with a larger Adjusted Price](screenshots/grid-summary.png)
-
 *Screenshots use fake addresses and MLS numbers, and the photos are blurred.*
 
 ## Install (about 2 minutes)
@@ -36,10 +34,9 @@ You need **Google Chrome** or **Microsoft Edge**. The floating panel uses a brow
 
 Stylus is a free, open source extension that applies custom styles to websites.
 
-- Chrome: [Stylus in the Chrome Web Store](https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne)
-- Edge: [Stylus in Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/stylus/apgmafgafaaiebbpjnkmdpfiekmphjnn)
+Open [Stylus in the Chrome Web Store](https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne), click **Add to Chrome**, then confirm.
 
-Click **Add to Chrome** (or **Get** in Edge), then confirm.
+Using Edge? Open the same link. Edge shows a banner at the top: click **Allow extensions from other stores**, then **Get**.
 
 ### 2. Install the style
 
