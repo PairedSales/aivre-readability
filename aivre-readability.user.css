@@ -1,0 +1,298 @@
+/* ==UserStyle==
+@name           Aivre Readability
+@namespace      github.com/PairedSales/aivre-readability
+@version        1.3.0
+@author         PairedSales
+@license        MIT
+@homepageURL    https://github.com/PairedSales/aivre-readability
+@supportURL     https://github.com/PairedSales/aivre-readability/issues
+@updateURL      https://raw.githubusercontent.com/PairedSales/aivre-readability/main/aivre-readability.user.css
+@description    Larger, darker text on all Aivre pages; readable Sales Comparison grid without gap rows; Auto Adjustment controls in a floating panel; Adjusted Price and Sale Price rows larger.
+==/UserStyle== */
+
+@-moz-document domain("www.aivre.com") {
+/* Aivre Readability (unofficial user style, not affiliated with Aivre)
+   Stylus: apply to "URLs on the domain" www.aivre.com
+   Part 1 (all pages): tiny text made larger, gray text darkened. Spacing is not changed,
+   except line heights that were fixed to the old tiny text size (they would clip the larger text).
+   Part 2 (Sales Comparison grid): larger, darker, heavier grid text, enlarged number boxes,
+   and the gray gap rows between grid groups removed. */
+
+/* ---------- Part 1: all pages ---------- */
+
+/* Tiny text */
+.text-\[7px\], .text-\[8px\], .text-\[8\.5px\], .text-\[9px\] { font-size: 10px !important; }
+.text-\[10px\], .text-\[10\.5px\], .text-\[11px\], .text-\[11\.5px\] { font-size: 12px !important; }
+.text-\[12px\], .text-xs { font-size: 12.5px !important; }
+.text-sm { font-size: 14px !important; }
+
+/* Line heights fixed to the old tiny size would clip the larger text */
+.leading-\[10px\] { line-height: 1.25 !important; }
+
+/* Contrast: gray text to near-black */
+.text-gray-400, .text-gray-500, .text-slate-400, .text-slate-500 { color: #374151 !important; }
+.text-gray-600, .text-slate-600 { color: #1f2937 !important; }
+.text-gray-700, .text-gray-800, .text-slate-700, .text-slate-800 { color: #111827 !important; }
+
+/* Form fields and labels */
+input, textarea, select { color: #000 !important; }
+input::placeholder, textarea::placeholder { color: #6b7280 !important; }
+label { color: #111827 !important; }
+
+/* ---------- Part 2: Sales Comparison grid ---------- */
+
+table.border-separate td,
+table.border-separate td *:not(svg):not(path) {
+  font-size: 12px !important;
+  line-height: 1.25 !important;
+}
+
+table.border-separate td *:not(svg):not(path):not([class*="text-red"]):not([class*="text-blue"]) {
+  color: #0b0b0b !important;
+}
+
+table.border-separate td span,
+table.border-separate td button {
+  font-weight: 500 !important;
+}
+
+/* Row labels */
+table.border-separate tr > td:first-child,
+table.border-separate tr > td:first-child * {
+  font-weight: 600 !important;
+}
+
+/* Value inputs (sizes, prices, counts): Aivre's own styles block a font-size change, so they are zoomed */
+table.border-separate td input {
+  zoom: 1.09;
+  color: #000 !important;
+  font-weight: 500 !important;
+}
+
+/* Comp header row stays compact so addresses do not truncate */
+table.border-separate tr:first-child td *:not(svg):not(path) {
+  font-size: 10px !important;
+}
+
+/* Stronger grid lines and light row banding */
+table.border-separate td { border-color: #9ca3af !important; }
+table.border-separate tr:nth-child(even) > td {
+  background-image: linear-gradient(rgba(0, 0, 0, .025), rgba(0, 0, 0, .025));
+}
+
+/* Remove the gray gap rows between grid groups */
+table.border-separate tr[data-section-spacer] { display: none !important; }
+
+/* ---------- Part 3: Auto Adjustment column as a floating panel ----------
+   Aivre's Auto Adjustment column (sticky, class z-[99]) stacks its controls inside each row,
+   which makes those rows 100-220px tall. Here the column becomes a 30px strip of chips and the
+   controls float in a panel on hover or keyboard focus, so row heights stay as they are with the
+   tool off. Solid violet chip: an adjustment value is set for that row. Outlined chip: not set. */
+
+table.border-separate th.sticky.z-\[99\],
+table.border-separate td.sticky.z-\[99\] {
+  width: 30px !important;
+  min-width: 30px !important;
+  max-width: 30px !important;
+  padding: 0 !important;
+}
+
+/* Header: icon only */
+table.border-separate th.sticky.z-\[99\] span,
+table.border-separate th.sticky.z-\[99\] > div:not(.absolute) > div:not(:first-child) {
+  display: none !important;
+}
+table.border-separate th.sticky.z-\[99\] svg { color: #6d28d9 !important; }
+
+table.border-separate td.sticky.z-\[99\] { overflow: visible !important; }
+
+/* Chip in the strip (rows that have controls only) */
+table.border-separate td.sticky.z-\[99\]:has(select, button)::after {
+  content: "\00b1";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #c4b5fd;
+  border-radius: 5px;
+  background: #f5f3ff;
+  color: #6d28d9;
+  font: 700 13px/18px system-ui, sans-serif;
+  text-align: center;
+  pointer-events: none;
+}
+table.border-separate td.sticky.z-\[99\]:has(input[value]:not([value=""]))::after {
+  background: #6d28d9;
+  border-color: #6d28d9;
+  color: #fff;
+}
+/* Configure-only rows (Overall Quality, Overall Condition) */
+table.border-separate td.sticky.z-\[99\]:has(button):not(:has(select))::after {
+  content: "\2026";
+}
+
+table.border-separate td.sticky.z-\[99\]:is(:hover, :focus-within)::after {
+  box-shadow: 0 0 0 2px #a78bfa;
+}
+
+/* The controls: taken out of the row flow, shown as a floating card anchored to the right of
+   the strip. Fixed + anchor positioning lets it escape the grid's scroll box and flip upward
+   when the row is near the bottom of the screen. */
+table.border-separate td.sticky.z-\[99\] {
+  anchor-name: --aivre-aa;
+  anchor-scope: --aivre-aa;
+}
+table.border-separate td.sticky.z-\[99\] > div {
+  position: fixed !important;
+  position-anchor: --aivre-aa;
+  top: calc(anchor(top) - 1px);
+  left: calc(anchor(right) - 2px);
+  position-try-fallbacks: flip-block;
+  z-index: 5;
+  box-sizing: border-box;
+  width: 244px;
+  padding: 8px 9px !important;
+  gap: 7px !important;
+  background: #fff !important;
+  border: 1px solid #a78bfa;
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(17, 24, 39, .20), 0 2px 6px rgba(17, 24, 39, .10);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+table.border-separate td.sticky.z-\[99\]:hover,
+table.border-separate td.sticky.z-\[99\]:focus-within {
+  z-index: 300 !important;
+}
+/* Aivre rows carry translate: 0px, which traps the panel inside its row; lift it for the open row only */
+table.border-separate tr:has(> td.sticky.z-\[99\]:hover),
+table.border-separate tr:has(> td.sticky.z-\[99\]:focus-within) {
+  position: relative;
+  z-index: 400;
+  translate: none !important;
+  transition: none !important;
+}
+table.border-separate td.sticky.z-\[99\]:hover > div,
+table.border-separate td.sticky.z-\[99\]:focus-within > div {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity .1s ease .12s, visibility 0s linear .12s;
+}
+table.border-separate td.sticky.z-\[99\]:focus-within > div { transition: none; }
+
+table.border-separate td.sticky.z-\[99\] > div div { gap: 5px !important; }
+table.border-separate td.sticky.z-\[99\] > div > div > div + div {
+  margin-top: 2px;
+}
+
+/* Controls at a readable size */
+table.border-separate td.sticky.z-\[99\] select,
+table.border-separate td.sticky.z-\[99\] input,
+table.border-separate td.sticky.z-\[99\] button {
+  zoom: 1 !important;
+  height: 26px !important;
+  font-size: 12.5px !important;
+  border-color: #9ca3af !important;
+}
+table.border-separate td.sticky.z-\[99\] input { padding: 0 6px !important; }
+table.border-separate td.sticky.z-\[99\] select { padding-left: 5px !important; }
+table.border-separate td.sticky.z-\[99\] button {
+  color: #5b21b6 !important;
+  font-weight: 600 !important;
+}
+
+/* Column labels (Aivre's header labels, moved into the panel) above the two dropdowns */
+table.border-separate td.sticky.z-\[99\] div.grid:has(> select + select)::before,
+table.border-separate td.sticky.z-\[99\] div.grid:has(> select + select)::after {
+  grid-row: 1;
+  font: 700 10px/1.2 system-ui, sans-serif;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: #4b5563;
+}
+table.border-separate td.sticky.z-\[99\] div.grid:has(> select + select)::before { content: "Adj. value"; grid-column: 1; }
+table.border-separate td.sticky.z-\[99\] div.grid:has(> select + select)::after { content: "Threshold"; grid-column: 2; }
+table.border-separate td.sticky.z-\[99\] div.grid:has(> select + select) > select { grid-row: 2; }
+
+/* Group titles (Full baths, Half baths) and Round to label */
+table.border-separate td.sticky.z-\[99\] > div > div > div:not(.grid):not(:has(*)) {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+table.border-separate td.sticky.z-\[99\] div.grid:has(> span + select) {
+  grid-template-columns: 70px minmax(0, 1fr) !important;
+}
+table.border-separate td.sticky.z-\[99\] div.grid:has(> span + select) > span {
+  font-size: 12px !important;
+}
+
+/* ---------- Part 4: Adjusted Price and Sale Price rows larger ----------
+   Adjusted Price: values 17px extra bold, label 14px. Sale Price (top): values 15px bold. No highlighting.
+   Aivre sets the grid's input font size with !important inside its Tailwind "utilities" cascade
+   layer, which beats any unlayered !important. Rules in the earlier "base" layer win over it. */
+
+@layer base {
+  table.border-separate tr[data-row-group="row-Adjusted Price"] > td:not(:first-child) {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
+  table.border-separate tr[data-row-group="row-Adjusted Price"] > td:first-child {
+    vertical-align: middle !important;
+  }
+  table.border-separate tr[data-row-group="row-Adjusted Price"] > td:first-child * {
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    color: #000 !important;
+  }
+  table.border-separate tr[data-row-group="row-Adjusted Price"] td input {
+    zoom: 1 !important;
+    height: auto !important;
+    font-size: 17px !important;
+    font-weight: 800 !important;
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+    opacity: 1 !important;
+  }
+  table.border-separate tr[data-row-group="row-Adjusted Price"] td div:has(+ input) {
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: #000 !important;
+  }
+
+  /* Sale Price at the top of the grid: larger, one step below Adjusted Price.
+     The Summary section's Sale Price row is tagged sca-summary-sale-price and is not affected. */
+  table.border-separate tr[data-row-group="row-Sale Price"] > td:not(:first-child) {
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+  }
+  table.border-separate tr[data-row-group="row-Sale Price"] > td:first-child {
+    vertical-align: middle !important;
+  }
+  table.border-separate tr[data-row-group="row-Sale Price"] > td:first-child * {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #000 !important;
+  }
+  table.border-separate tr[data-row-group="row-Sale Price"] td input {
+    zoom: 1 !important;
+    height: auto !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+  }
+  table.border-separate tr[data-row-group="row-Sale Price"] td div:has(+ input) {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: #000 !important;
+  }
+}
+
+}
